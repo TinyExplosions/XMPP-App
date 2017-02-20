@@ -1,48 +1,52 @@
 <!DOCTYPE html>
-  <head>
+
+<head>
     <meta charset="utf-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
     <title>Hello World</title>
-
     <link rel="stylesheet" href="css/app.css">
-  </head>
+    <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+</head>
 
-  <body>
-  <header class="header-footer-bg">
-      <div class="center">
-          <h3>FeedHenry
+<body>
+    <header class="header-footer-bg">
+        <div class="center">
+            <h3>FeedHenry
               <small>QuickStart - HTML5</small>
           </h3>
-      </div>
-  </header>
-
-  <div id="count" class="">
-      <div id="formWrapper">
-          <p id="description">This is a basic Javascript App that can take in your name, send it to a cloud app and display the response.</p>
-          <br>
-
-          <div class="input-div">
-              <input id="hello_to" type="text" class="input-text" placeholder="Enter Your Name Here."/>
-          </div>
-
-          <br>
-
-          <button id="say_hello" type="button" class="say-hello-button">Say Hello From The Cloud</button>
-          <div id="cloudResponse" class="cloudResponse"></div>
-      </div>
-  </div>
-
-      <footer class="header-footer-bg">
-          <div>
-              <small class="right">
+        </div>
+    </header>
+    <div id="count" class="">
+        <div id="formWrapper">
+            <p id="description">This is a basic Javascript App that echos messages sent to a Jabber server.</p>
+            <br>
+            <div class="input-div">
+                <!-- <input id="hello_to" type="text" class="input-text" placeholder="Enter Your Name Here." /> -->
+            </div>
+            <br>
+            <!-- <button id="say_hello" type="button" class="say-hello-button">Say Hello From The Cloud</button> -->
+            <div id="cloudResponse" class="cloudResponse"></div>
+        </div>
+    </div>
+    <footer class="header-footer-bg">
+        <div>
+            <small class="right">
                   <!-- v.&nbsp;{{ version }} -->
               </small>
-          </div>
-      </footer>
-
+        </div>
+    </footer>
     <script src="main.js"></script>
     <script src="js/hello.js"></script>
-  </body>
+    <script>
+    $fh.on("fhinit", function(err, host) {
+        var socket = io($fh.getCloudURL());
+        socket.on('xmppmessage', function(data) {
+            console.log(data);
+            document.getElementById('cloudResponse').innerHTML = "<p>" + data.from + " says:<br>" + data.message + "</p>";
+            // socket.emit('my other event', { my: 'data' });
+        });
+    });
+    </script>
+</body>
+
 </html>
